@@ -1,0 +1,215 @@
+/* =======================================================
+   OWASP — estilos específicos de la página
+   ======================================================= */
+
+/* ---------- Comportamiento de scroll global ---------- */
+html { scroll-behavior: smooth; }
+
+/* ---------- Hero (encabezado de la página OWASP) ---------- */
+.hero {
+  background: linear-gradient(180deg, #eef5ff, #f7fbff);
+  border-bottom: 1px solid #e6eef7;
+}
+.hero .tagline { color: #476287; }
+
+/* ---------- Área de contenido ---------- */
+.content-area { background: #fff; }
+.section { padding-top: 10px; margin-bottom: 40px; }
+
+/* Compensación del sticky al seguir anclas dentro de secciones */
+.section > h2,
+.section > .h3 { scroll-margin-top: 96px; }
+
+hr { margin: 32px 0; opacity: .15; }
+
+/* =======================================================
+   Barra superior OWASP (marca a la izquierda / links a la derecha)
+   ======================================================= */
+.owasp-crumb.navbar{
+  --bs-navbar-padding-y: .50rem;
+  position: sticky;
+  top: 0;
+  z-index: 1030;
+  background:#fff;
+  border-bottom:1px solid #e6eef7;
+  box-shadow:0 1px 0 rgba(13,110,253,.04);
+  padding-top:.35rem;
+  padding-bottom:.35rem;
+}
+
+.owasp-brand{
+  font-size: 2.00rem;     /* tamaño de marca */
+  letter-spacing: .02em;
+  font-weight: 800;
+  text-transform: uppercase;
+}
+
+.owasp-link{
+  color:#6b7280;
+  text-decoration:none; /* sin subrayado */
+  font-size:1rem;
+}
+.owasp-link:hover{ color:#111827; }
+
+.owasp-crumb .bi{
+  font-size: 1.25rem;
+  margin-right: .45rem;
+  vertical-align: -.14rem;
+}
+
+/* Ancla superior de esta página (usada por homeHref="#owasp-top") */
+#owasp-top { scroll-margin-top: 76px; }
+
+/* =======================================================
+   Sidebar (TOC)
+   ======================================================= */
+.sidebar-col{
+  background: linear-gradient(180deg, #0b1f36, #0e2745);
+  color:#cfe3ff;
+  min-height: calc(100vh - 0px);
+}
+
+/* el contenedor del TOC queda sticky bajo la barra superior */
+#toc{
+  position: sticky;
+  top: 76px;                               /* altura aproximada de la barra OWASP */
+  height: calc(100vh - 92px);              /* viewport menos la barra, margen inferior suave */
+  padding: 12px 0;
+  border-left: 0;
+  border-right: 0;
+
+  /* === Scroll controlado (pide el usuario) === */
+  overflow-y: auto;
+  overflow-x: hidden;                      /* quita SIEMPRE la barra horizontal */
+
+  /* Firefox: oculto por defecto, fino al hover */
+  scrollbar-width: none;                   /* oculto por defecto */
+}
+#toc:hover{
+  scrollbar-width: thin;                   /* Firefox: visible al pasar el mouse */
+}
+
+/* WebKit (Chrome/Edge/Safari) — oculto por defecto, visible al hover */
+#toc::-webkit-scrollbar{
+  width: 0px;                              /* oculto por defecto */
+  height: 0px;                             /* oculta la horizontal también */
+}
+#toc:hover::-webkit-scrollbar{
+  width: 8px;                              /* muestra solo la vertical */
+  height: 0px;                             /* mantiene oculta la horizontal */
+}
+/* fuerza que la horizontal nunca aparezca */
+#toc::-webkit-scrollbar:horizontal,
+#toc:hover::-webkit-scrollbar:horizontal{
+  height: 0 !important;
+}
+
+/* Estilo del track y thumb cuando la barra vertical es visible */
+#toc::-webkit-scrollbar-track{
+  background: rgba(255,255,255,.06);
+  border-radius: 999px;
+  margin: 8px 2px;
+}
+#toc::-webkit-scrollbar-thumb{
+  background: linear-gradient(180deg,#7fb1ff,#4d7ec4);
+  border-radius: 999px;
+  box-shadow: inset 0 0 0 2px rgba(11,31,54,.85);
+}
+#toc:hover::-webkit-scrollbar-thumb{
+  background:#8ab4ff;
+}
+
+/* pequeña separación para evitar rebote y no disparar barra horizontal */
+#toc .nav{ display:flex; flex-direction:column; gap: 4px; padding-bottom: 8px; }
+
+#toc .toc-title{
+  font-weight:700;
+  color:#cfe3ff;
+  font-size:14px;
+  letter-spacing:.06em;
+  padding:6px 18px;
+  text-transform:uppercase;
+}
+
+/* Reinicio de .nav-link de Bootstrap dentro del TOC */
+#toc .nav-link{
+  display:block;
+  padding:14px 18px;
+  margin:0 10px;
+  color:#e5f1ff !important;          /* evitar azul Bootstrap */
+  background:transparent;
+  border-left:3px solid transparent;
+  border-radius:12px;
+  transition: background .15s, color .15s, border-left-color .15s, transform .08s;
+  text-decoration:none !important;
+  line-height:1.35;
+  position: relative;
+}
+#toc .nav-link + .nav-link{
+  margin-top: 8px;
+}
+#toc .nav-link::after{
+  content:"";
+  position:absolute;
+  left:18px; right:18px; bottom:-6px;
+  height:1px;
+  background: rgba(255,255,255,.07);
+  border-radius: 1px;
+}
+#toc .nav-link:hover{
+  background: rgba(255,255,255,.06);
+  color:#ffffff !important;
+  transform: translateY(-1px);
+}
+#toc .nav-link.active{
+  background:#1a4b83;                /* pastilla activa sobria */
+  color:#ffffff !important;
+  border-left-color:#8ab4ff;
+  box-shadow: 0 6px 16px rgba(0,0,0,.25), inset 0 0 0 1px rgba(255,255,255,.08);
+}
+
+/* En móviles el sidebar deja de ser sticky */
+@media (max-width: 991.98px){
+  #toc{ position: static; height: auto; overflow: visible; }
+}
+
+/* =======================================================
+   Glosario (lista en 2 columnas en desktop)
+   ======================================================= */
+.glossary{
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 10px 18px;
+}
+.glossary-item dt{
+  font-weight: 700;
+  color: #0f274a;
+  margin-bottom: 2px;
+}
+.glossary-item dd{
+  margin: 0;
+  color: #2a3f5f;
+}
+@media (min-width: 992px){
+  .glossary{ grid-template-columns: 1fr 1fr; }
+}
+
+/* =======================================================
+   Palabras con popover (gloss-pop)
+   ======================================================= */
+.gloss-pop{
+  cursor: help;
+  border-bottom: 1px dotted currentColor;  /* pista visual */
+}
+
+/* =======================================================
+   Ajustes menores / helpers
+   ======================================================= */
+
+/* Quita subrayados automáticos en links del contenido cuando se quiera más limpio */
+.content-area a{
+  text-decoration: none;
+}
+.content-area a:hover{
+  text-decoration: underline;
+}
